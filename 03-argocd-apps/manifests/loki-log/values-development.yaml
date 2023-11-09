@@ -1,0 +1,8 @@
+domain: grafana-loki.dev.chalam-kitchen.com
+
+loki-stack:
+  grafana:
+    grafana.ini:
+      server:
+        root_url: https://grafana-loki.dev.chalam-kitchen.com
+        domain: grafana-loki.dev.chalam-kitchen.com

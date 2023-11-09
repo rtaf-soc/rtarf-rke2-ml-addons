@@ -1,0 +1,8 @@
+domain: grafana-loki.rtarf-ml.its-software-services.com
+
+loki-stack:
+  grafana:
+    grafana.ini:
+      server:
+        root_url: https://grafana-loki.rtarf-ml.its-software-services.com
+        domain: grafana-loki.rtarf-ml.its-software-services.com
