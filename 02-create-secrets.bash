@@ -59,7 +59,7 @@ metadata:
     argocd.argoproj.io/secret-type: repository
 type: Opaque    
 stringData:
-  url: https://github.com/rtaf-soc/rtarf-rke2-es-addons.git
+  url: https://github.com/rtaf-soc/rtarf-rke2-ml-addons.git
   username: dummy-gh
   password: ${GH_TOKEN}
   type: git

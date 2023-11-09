@@ -9,7 +9,7 @@ spec:
 
   # Source of the application manifests
   source:
-    repoURL: https://github.com/rtaf-soc/rtarf-rke2-es-addons.git
+    repoURL: https://github.com/rtaf-soc/rtarf-rke2-ml-addons.git
     targetRevision: {{ .Values.envAlias }} #Should be based on environment
     path: '03-argocd-apps/applications'
 
