@@ -64,3 +64,38 @@ stringData:
   password: ${GH_TOKEN}
   type: git
 END
+
+### MinIO Secrets ###
+kubectl apply -f - <<END
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minio-ml-secret-env
+type: Opaque
+stringData:
+  config.env: |-
+    export MINIO_ROOT_USER=${MINIO_ACCESS_KEY}
+    export MINIO_ROOT_PASSWORD=${MINIO_SECRET_KEY}
+END
+
+kubectl apply -f - <<END
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minio-ml-user
+type: Opaque
+data:
+  CONSOLE_ACCESS_KEY: $(echo -n "${CONSOLE_ACCESS_KEY}" | base64)
+  CONSOLE_SECRET_KEY: $(echo -n "${CONSOLE_SECRET_KEY}" | base64)
+END
+
+kubectl apply -f - <<END
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mlflow-secrets
+type: Opaque
+data:
+  AWS_ACCESS_KEY_ID: $(echo -n "${MINIO_ACCESS_KEY}" | base64)
+  AWS_SECRET_ACCESS_KEY: $(echo -n "${MINIO_SECRET_KEY}" | base64)
+END
