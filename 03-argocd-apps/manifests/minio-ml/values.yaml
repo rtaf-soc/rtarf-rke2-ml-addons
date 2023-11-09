@@ -1,0 +1,15 @@
+domain: minio.rtarf-ml.its-software-services.com
+domain2: minio-api.rtarf-ml.its-software-services.com
+
+tenant:
+  pool0ServerInPool: 2
+  pool0VolumesPerServer: 2
+  pool0DiskSizePerVolume: 30Gi
+
+  pool1ServerInPool: 2
+  pool1VolumesPerServer: 2
+  pool1DiskSizePerVolume: 30Gi
+
+  pool2ServerInPool: 2
+  pool2VolumesPerServer: 2
+  pool2DiskSizePerVolume: 30Gi

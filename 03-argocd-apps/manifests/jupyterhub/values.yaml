@@ -1,0 +1,31 @@
+domain: jupyterhub.rtarf-ml.its-software-services.com
+
+jupyterhub:
+  enabled: true
+  fullnameOverride: "jupyterhub"
+  nameOverride: "jupyterhub"
+
+  hub:
+    pdb:
+      enabled: false
+    networkPolicy:
+      enabled: false
+
+  scheduling:
+    userPlaceholder:
+      enabled: false
+    userScheduler:
+      enabled: false
+      pdb:
+        enabled: false
+
+  singleuser:
+    networkPolicy:
+      enabled: false
+
+  proxy:
+    service:
+      type: ClusterIP
+    chp:
+      networkPolicy:
+        enabled: false

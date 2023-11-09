@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow-ads-anomaly-dest-country
+  labels:
+    app: mlflow-ads-anomaly-dest-country
+spec:
+  selector:
+    matchLabels:
+      app: mlflow-ads-anomaly-dest-country
+  template:
+    metadata:
+      labels:
+        app: mlflow-ads-anomaly-dest-country
+    spec:
+      containers:
+        - name: mlflow-serving
+          image: gcr.io/its-artifact-commons/ml-training-api:master-db2c7b2 #change here
+          env:
+            - name: MODEL_URI
+              value: "s3://mlflow-artifacts/4/b63e682a58e04339aa4db95f836a647e/artifacts/model" #change here
+            - name: SERVING_PORT
+              value: "8082"          
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: "https://minio-ml-hl.minio-ml.svc.cluster.local:9000"          
+            - name: MLFLOW_S3_IGNORE_TLS
+              value: "true"     
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          envFrom:
+          - secretRef:
+              name: mlflow-app-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mlflow-ads-anomaly-dest-country
+  name: mlflow-ads-anomaly-dest-country
+spec:
+  ports:
+  - name: http-web
+    port: 8082
+    protocol: TCP
+    targetPort: 8082
+  selector:
+    app: mlflow-ads-anomaly-dest-country
+  type: ClusterIP
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mlflow-ads-anomaly-dest-country
+spec:
+  minReplicas: 7  
+  maxReplicas: 10
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mlflow-ads-anomaly-dest-country
+  targetCPUUtilizationPercentage: 60

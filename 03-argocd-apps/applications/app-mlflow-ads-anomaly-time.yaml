@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: mlflow-ads-anomaly-time
+spec:
+  generators:
+  - clusters:
+      selector:
+        matchLabels:
+          custom: "true"
+  template:
+    metadata:
+      name: 'mlflow-ads-anomaly-time-{{name}}'
+    spec:
+      project: "default"
+      source:
+        repoURL: https://github.com/rtaf-soc/rtarf-rke2-ml-addons.git
+        targetRevision: "{{name}}" #Based on environment
+        path: '03-argocd-apps/manifests/mlflow-ads-anomaly-time'
+      destination:
+        name: in-cluster
+        namespace: mlflow-ads-anomaly-time
+      syncPolicy:
+        automated:
+          selfHeal: false
+          prune: true
+        syncOptions:
+          - CreateNamespace=true

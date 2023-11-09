@@ -1,0 +1,13 @@
+apiVersion: v2
+name: helm-jupyterhub
+description: A Helm chart for Jupyter Hub
+
+type: application
+
+version: 1.0.1
+
+appVersion: 4.0.2
+dependencies:
+  - name: jupyterhub 
+    version: 3.1.0
+    repository: https://jupyterhub.github.io/helm-chart

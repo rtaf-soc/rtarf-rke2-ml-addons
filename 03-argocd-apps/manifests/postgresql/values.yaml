@@ -1,0 +1,12 @@
+domain: postgresql.rtarf-ml.its-software-services.com
+
+postgresql:
+  global:
+    postgresql:
+      auth:
+        postgresPassword: "testpassword"
+        # existingSecret: ""
+        # secretKeys:
+        #   adminPasswordKey: postgres-password
+        
+        database: "mlflow"

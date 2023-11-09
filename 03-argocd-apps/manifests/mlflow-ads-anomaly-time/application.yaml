@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow-ads-anomaly-time
+  labels:
+    app: mlflow-ads-anomaly-time
+spec:
+  selector:
+    matchLabels:
+      app: mlflow-ads-anomaly-time
+  template:
+    metadata:
+      labels:
+        app: mlflow-ads-anomaly-time
+    spec:
+      containers:
+        - name: mlflow-serving
+          image: gcr.io/its-artifact-commons/ml-training-api:master-db2c7b2 #change here
+          env:
+            - name: MODEL_URI
+              value: "s3://mlflow-artifacts/5/710ae1514e9441a88b47ee15834f44c3/artifacts/model" #change here
+            - name: SERVING_PORT
+              value: "8082"          
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: "https://minio-ml-hl.minio-ml.svc.cluster.local:9000"          
+            - name: MLFLOW_S3_IGNORE_TLS
+              value: "true"     
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 2000Mi
+            requests:
+              cpu: 800m
+              memory: 800Mi
+          envFrom:
+          - secretRef:
+              name: mlflow-app-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mlflow-ads-anomaly-time
+  name: mlflow-ads-anomaly-time
+spec:
+  ports:
+  - name: http-web
+    port: 8082
+    protocol: TCP
+    targetPort: 8082
+  selector:
+    app: mlflow-ads-anomaly-time
+  type: ClusterIP
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mlflow-ads-anomaly-time
+spec:
+  minReplicas: 1  
+  maxReplicas: 3
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mlflow-ads-anomaly-time
+  targetCPUUtilizationPercentage: 60

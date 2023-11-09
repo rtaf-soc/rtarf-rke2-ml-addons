@@ -1,0 +1,11 @@
+apiVersion: v2
+name: helm-postgresql
+version: 1.0.0
+appVersion: 1.23.0
+description: A Helm chart wrapper for postgresql
+
+dependencies:
+  - name: postgresql
+    version: 12.2.3
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled

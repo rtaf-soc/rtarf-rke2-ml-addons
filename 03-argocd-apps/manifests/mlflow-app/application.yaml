@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow-serving
+  labels:
+    app: serve-ML-model-mlflow
+spec:
+  selector:
+    matchLabels:
+      app: mlflow-serving
+  template:
+    metadata:
+      labels:
+        app: mlflow-serving
+    spec:
+      containers:
+        - name: mlflow-serving
+          image: gcr.io/its-artifact-commons/ml-training-api:master-db2c7b2 #change here
+          env:
+            - name: MODEL_URI
+              value: "s3://mlflow-artifacts/2/c1cf7705a69e4185b8aeaca43f3c4c13/artifacts/model" #change here
+            - name: SERVING_PORT
+              value: "8082"          
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: "https://minio-ml-hl.minio-ml.svc.cluster.local:9000"          
+            - name: MLFLOW_S3_IGNORE_TLS
+              value: "true"    
+          # command: ["/bin/sleep", "3650d"]      
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 600Mi
+            requests:
+              cpu: 500m
+              memory: 300Mi
+          envFrom:
+          - secretRef:
+              name: mlflow-app-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mlflow-serving
+  name: mlflow-serving
+spec:
+  ports:
+  - name: http-web
+    port: 8082
+    protocol: TCP
+    targetPort: 8082
+  selector:
+    app: mlflow-serving
+  type: ClusterIP
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mlflow-serving
+spec:
+  minReplicas: 1  
+  maxReplicas: 3
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mlflow-serving
+  targetCPUUtilizationPercentage: 60

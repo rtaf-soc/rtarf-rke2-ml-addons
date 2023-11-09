@@ -1,0 +1,279 @@
+domain: jenkins.rtarf-ml.its-software-services.com
+
+jenkins:
+  controller:
+    jenkinsUrl: https://jenkins.rtarf-ml.its-software-services.com
+    image: "gcr.io/its-artifact-commons/jenkins-image"
+    tag: "master-c16d4ce"
+    installPlugins: false
+    numExecutors: 2                            #default 0 and can not run script at master node
+    customJenkinsLabels:
+      - "master"
+    existingSecret: "jenkins-secrets"
+    admin:
+      existingSecret: "jenkins-secrets"
+      userKey: jenkins-admin-user
+      passwordKey: jenkins-admin-password
+
+    JCasC:
+      configScripts:
+        welcome-message: |
+          jenkins:
+            systemMessage: Welcome to our CI\CD server.
+        jenkins-credentials: |
+          credentials:
+            system:
+              domainCredentials:
+              - credentials:
+                - usernamePassword:
+                    scope: GLOBAL
+                    id: 'AWS_CREDENTIAL'
+                    username: ${AWS_ACCESS_KEY_ID}
+                    password: ${AWS_SECRET_ACCESS_KEY}
+                - usernamePassword:
+                    scope: GLOBAL
+                    id: 'ADS_AWS_CREDENTIAL'
+                    username: ${ADS_MINIO_ACCESS_KEY}
+                    password: ${ADS_MINIO_SECRET_KEY}
+        jobs-dsl: |
+          jobs:
+          - script: >
+              pipelineJob('ML')
+              {
+                description 'Deployment job for ML'
+                logRotator 
+                {
+                    numToKeep 100
+                }
+
+                parameters 
+                {
+                    stringParam('MLFLOW_TRACKING_URI', 'http://mlflow.rtarf-ml.its-software-services.com/', '')
+                    stringParam('MLFLOW_MINIO_FOLDER', '14', '')
+                }
+
+                definition 
+                {
+                    cpsScm 
+                    {
+                        scm 
+                        {
+                            git 
+                            {
+                                remote 
+                                {
+                                    url 'https://github.com/rtaf-soc/rtarf-ml-training-api.git'
+                                }
+
+                                branches 'master'
+                                scriptPath 'Jenkinsfile'
+                                extensions { }
+                            }
+                        }
+                    }
+                }
+                disabled(false)
+              }
+
+          - script: >
+              pipelineJob('ADS-ANOMALY-DEST-COUNTRY')
+              {
+                description 'Deployment job for ADS-ANOMALY-DEST-COUNTRY'
+                logRotator 
+                {
+                    numToKeep 100
+                }
+
+                parameters 
+                {
+                    stringParam('MLFLOW_TRACKING_URI', 'http://mlflow.rtarf-ml.its-software-services.com/', '')
+                    stringParam('MLFLOW_MINIO_FOLDER', '2023-10-25.syslog_fw_traffic', '')
+                    stringParam('MLFLOW_TRAINING_FILE_LIMIT', '10', 'Limit file will be load for training ML')
+                }
+
+                definition 
+                {
+                    cpsScm 
+                    {
+                        scm 
+                        {
+                            git 
+                            {
+                                remote 
+                                {
+                                    url 'https://github.com/rtaf-soc/rtarf-ml-training-api.git'
+                                }
+
+                                branches 'master'
+                                scriptPath 'JenkinsfileTrainingAdsAnomalyDestCountry'
+                                extensions { }
+                            }
+                        }
+                    }
+                }
+                disabled(false)
+              }
+
+          - script: >
+              pipelineJob('ADS-ANOMALY-DEST-COUNTRY-TEST')
+              {
+                description 'Deployment job for ADS-ANOMALY-DEST-COUNTRY-TEST'
+                logRotator 
+                {
+                    numToKeep 100
+                }
+
+                parameters 
+                {
+                    stringParam('MLFLOW_TRACKING_URI', 'http://mlflow.rtarf-ml.its-software-services.com/', '')
+                    stringParam('MLFLOW_MINIO_FOLDER', '2023-10-25.syslog_fw_traffic', '')
+                    stringParam('MLFLOW_TRAINING_FILE_LIMIT', '10', 'Limit file will be load for training ML')
+                }
+
+                definition 
+                {
+                    cpsScm 
+                    {
+                        scm 
+                        {
+                            git 
+                            {
+                                remote 
+                                {
+                                    url 'https://github.com/rtaf-soc/rtarf-ml-training-api.git'
+                                }
+
+                                branches 'master'
+                                scriptPath 'JenkinsfileTrainingAdsAnomalyDestCountry'
+                                extensions { }
+                            }
+                        }
+                    }
+                }
+                disabled(false)
+              }
+          
+          - script: >
+              pipelineJob('ADS-ANOMALY-DEST-COUNTRY-PORT')
+              {
+                description 'Deployment job for ADS-ANOMALY-DEST-COUNTRY-PORT'
+                logRotator 
+                {
+                    numToKeep 100
+                }
+
+                parameters 
+                {
+                    stringParam('MLFLOW_TRACKING_URI', 'http://mlflow.rtarf-ml.its-software-services.com/', '')
+                    stringParam('MLFLOW_MINIO_FOLDER', '2023-11-06.syslog_fw_traffic', '')
+                    stringParam('MLFLOW_TRAINING_FILE_LIMIT', '1', 'Limit file will be load for training ML')
+                }
+
+                definition 
+                {
+                    cpsScm 
+                    {
+                        scm 
+                        {
+                            git 
+                            {
+                                remote 
+                                {
+                                    url 'https://github.com/rtaf-soc/rtarf-ml-training-api.git'
+                                }
+
+                                branches 'master'
+                                scriptPath 'JenkinsfileTrainingAdsAnomalyDestCountryPort'
+                                extensions { }
+                            }
+                        }
+                    }
+                }
+                disabled(false)
+              }
+
+          - script: >
+              pipelineJob('ADS-ANOMALY-TIME')
+              {
+                description 'Deployment job for ADS-ANOMALY-TIME'
+                logRotator 
+                {
+                    numToKeep 100
+                }
+
+                parameters 
+                {
+                    stringParam('MLFLOW_TRACKING_URI', 'http://mlflow.rtarf-ml.its-software-services.com/', '')
+                    stringParam('MLFLOW_MINIO_FOLDER', '2023-10-10.zeek_radius', '')
+                    stringParam('MLFLOW_TRAINING_FILE_LIMIT', '10', 'Limit file will be load for training ML')
+                }
+
+                definition 
+                {
+                    cpsScm 
+                    {
+                        scm 
+                        {
+                            git 
+                            {
+                                remote 
+                                {
+                                    url 'https://github.com/rtaf-soc/rtarf-ml-training-api.git'
+                                }
+
+                                branches 'master'
+                                scriptPath 'JenkinsfileTrainingAdsAnomalyTime'
+                                extensions { }
+                            }
+                        }
+                    }
+                }
+                disabled(false)
+              }
+      # configUrls: 
+      #   - https://url.yaml?ignoreCache=21      
+  
+    # installPlugins:
+    # - pipeline-stage-view:2.32
+  agent:
+    additionalContainers:
+    - sideContainerName: dind
+      image: docker
+      tag: dind
+      command: dockerd-entrypoint.sh
+      args: ""
+      privileged: true
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+        limits:
+          cpu: 1
+          memory: 2Gi
+    podTemplates:
+      python: |
+        - name: python
+          label: jenkins-python
+          serviceAccount: default
+          namespace: "jenkins"
+          containers:
+            - name: python
+              image: python:3.9
+              command: "/bin/sh -c"
+              args: "cat"
+              ttyEnabled: true
+              privileged: true
+              resourceRequestCpu: "4000m"
+              resourceRequestMemory: "2048Mi"
+              resourceLimitCpu: "6000m"
+              resourceLimitMemory: "128096Mi"
+            - name: minio-mc
+              image: minio/mc:RELEASE.2023-05-30T22-41-38Z
+              command: "/bin/sh -c"
+              args: "cat"
+              ttyEnabled: true
+              privileged: true
+              resourceRequestCpu: "400m"
+              resourceRequestMemory: "512Mi"
+              resourceLimitCpu: "1"
+              resourceLimitMemory: "1024Mi"

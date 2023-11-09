@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mlflow-ads-anomaly-time-app-ing
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP  
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-http-version: "1.0"   
+spec:
+  rules:
+    - host: mlflow-ads-anomaly-time.rtarf-ml.its-software-services.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mlflow-ads-anomaly-time
+                port:
+                  number: 8082

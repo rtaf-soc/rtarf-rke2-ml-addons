@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mlflow-app-ing
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP  
+    kubernetes.io/ingress.class: "nginx"    
+spec:
+  rules:
+    - host: mlflow-app.rtarf-ml.its-software-services.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mlflow-serving
+                port:
+                  number: 8082

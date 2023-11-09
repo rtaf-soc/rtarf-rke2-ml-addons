@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway-cfm
+data:
+  # host_anomaly_des_country: "mlflow-ads-anomaly-dest-country.rtarf-ml.its-software-services.com"
+  # port_anomaly_des_country: "80"
+  # host_anomaly_time: "mlflow-ads-anomaly-time.rtarf-ml.its-software-services.com"
+  # port_anomaly_time: "80"
+  host_anomaly_des_country: "mlflow-ads-anomaly-dest-country.mlflow-ads-anomaly-dest-country.svc.cluster.local"
+  port_anomaly_des_country: "8082"
+  host_anomaly_time: "mlflow-ads-anomaly-time.mlflow-ads-anomaly-time.svc.cluster.local"
+  port_anomaly_time: "8082"
