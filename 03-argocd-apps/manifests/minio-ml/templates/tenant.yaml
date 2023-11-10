@@ -8,6 +8,7 @@ spec:
   buckets:
     - name: "mlflow-artifacts"
     - name: "ads-logs"
+    - name: "ml-report"
   users:
     - name: "minio-ml-user"
   credsSecret:
