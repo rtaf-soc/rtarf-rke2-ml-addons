@@ -10,7 +10,7 @@ fi
 
 export $(xargs <.env)
 
-cd "01-longhorn"
+cd "01-4-openebs"
 helm dependency update
-helm upgrade -i init-longhorn . -f values-${ENV}.yaml -n longhorn-system --create-namespace
+helm upgrade -i init-openebs . -f values-${ENV}.yaml -n openebs --create-namespace
 cd ..
