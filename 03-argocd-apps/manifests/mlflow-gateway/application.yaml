@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: mlflow-gateway
-          image: gcr.io/its-artifact-commons/ml-training-gateway:master-b73ad0b #change here
+          image: gcr.io/its-artifact-commons/ml-training-gateway:master-64c78d4 #change here
           env:
             - name: gateway_port_ml
               value: "5000"                          

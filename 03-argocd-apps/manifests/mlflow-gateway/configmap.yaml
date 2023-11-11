@@ -9,5 +9,7 @@ data:
   # port_anomaly_time: "80"
   host_anomaly_des_country: "mlflow-ads-anomaly-dest-country.mlflow-ads-anomaly-dest-country.svc.cluster.local"
   port_anomaly_des_country: "8082"
+  host_anomaly_des_country_port: "mlflow-ads-anomaly-dest-country-port.mlflow-ads-anomaly-dest-country-port.svc.cluster.local"
+  port_anomaly_des_country_port: "8082"
   host_anomaly_time: "mlflow-ads-anomaly-time.mlflow-ads-anomaly-time.svc.cluster.local"
   port_anomaly_time: "8082"
