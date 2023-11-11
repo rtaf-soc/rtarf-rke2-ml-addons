@@ -266,7 +266,7 @@ jenkins:
               resourceRequestCpu: "4000m"
               resourceRequestMemory: "2048Mi"
               resourceLimitCpu: "6000m"
-              resourceLimitMemory: "128096Mi"
+              resourceLimitMemory: "32096Mi"
             - name: minio-mc
               image: minio/mc:RELEASE.2023-05-30T22-41-38Z
               command: "/bin/sh -c"
