@@ -18,7 +18,7 @@ spec:
           image: gcr.io/its-artifact-commons/ml-training-api:master-db2c7b2 #change here
           env:
             - name: MODEL_URI
-              value: "s3://mlflow-artifacts/2/613a5b24d19a4836ba570f701eae5d2b/artifacts/model" #change here
+              value: "s3://mlflow-artifacts/3/6b12984c66c3441997904d095ff02c91/artifacts/model" #change here
             - name: SERVING_PORT
               value: "8082"          
             - name: MLFLOW_S3_ENDPOINT_URL
