@@ -35,6 +35,14 @@ jenkins:
                     id: 'ADS_AWS_CREDENTIAL'
                     username: ${ADS_MINIO_ACCESS_KEY}
                     password: ${ADS_MINIO_SECRET_KEY}
+                - string:
+                    scope: GLOBAL
+                    id: 'MLFLOW_USER'
+                    secret: ${mlflow-user}
+                - string:
+                    scope: GLOBAL
+                    id: 'MLFLOW_PASSWORD'
+                    secret: ${mlflow-password}
         jobs-dsl: |
           jobs:
           - script: >
