@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: mlflow-ads-anomaly-dest-country-port-staging
+spec:
+  generators:
+  - clusters:
+      selector:
+        matchLabels:
+          custom: "true"
+  template:
+    metadata:
+      name: 'mlflow-ads-anomaly-dest-country-port-staging-{{name}}'
+    spec:
+      project: "default"
+      source:
+        repoURL: https://github.com/rtaf-soc/rtarf-rke2-ml-addons.git
+        targetRevision: "{{name}}" #Based on environment
+        path: '03-argocd-apps/manifests/mlflow-ads-anomaly-dest-country-port-staging'
+      destination:
+        name: in-cluster
+        namespace: mlflow-ads-anomaly-dest-country-port-staging
+      syncPolicy:
+        automated:
+          selfHeal: false
+          prune: true
+        syncOptions:
+          - CreateNamespace=true
