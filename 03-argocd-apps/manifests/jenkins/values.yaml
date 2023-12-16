@@ -46,44 +46,6 @@ jenkins:
         jobs-dsl: |
           jobs:
           - script: >
-              pipelineJob('ML')
-              {
-                description 'Deployment job for ML'
-                logRotator 
-                {
-                    numToKeep 100
-                }
-
-                parameters 
-                {
-                    stringParam('MLFLOW_TRACKING_URI', 'http://mlflow.rtarf-ml.its-software-services.com/', '')
-                    stringParam('MLFLOW_MINIO_FOLDER', '14', '')
-                }
-
-                definition 
-                {
-                    cpsScm 
-                    {
-                        scm 
-                        {
-                            git 
-                            {
-                                remote 
-                                {
-                                    url 'https://github.com/rtaf-soc/rtarf-ml-training-api.git'
-                                }
-
-                                branches 'master'
-                                scriptPath 'Jenkinsfile'
-                                extensions { }
-                            }
-                        }
-                    }
-                }
-                disabled(false)
-              }
-
-          - script: >
               pipelineJob('ADS-ANOMALY-DEST-COUNTRY')
               {
                 description 'Deployment job for ADS-ANOMALY-DEST-COUNTRY'
@@ -122,45 +84,6 @@ jenkins:
                 disabled(false)
               }
 
-          - script: >
-              pipelineJob('ADS-ANOMALY-DEST-COUNTRY-TEST')
-              {
-                description 'Deployment job for ADS-ANOMALY-DEST-COUNTRY-TEST'
-                logRotator 
-                {
-                    numToKeep 100
-                }
-
-                parameters 
-                {
-                    stringParam('MLFLOW_TRACKING_URI', 'http://mlflow.rtarf-ml.its-software-services.com/', '')
-                    stringParam('MLFLOW_MINIO_FOLDER', '2023-10-25.syslog_fw_traffic', '')
-                    stringParam('MLFLOW_TRAINING_FILE_LIMIT', '10', 'Limit file will be load for training ML')
-                }
-
-                definition 
-                {
-                    cpsScm 
-                    {
-                        scm 
-                        {
-                            git 
-                            {
-                                remote 
-                                {
-                                    url 'https://github.com/rtaf-soc/rtarf-ml-training-api.git'
-                                }
-
-                                branches 'master'
-                                scriptPath 'JenkinsfileTrainingAdsAnomalyDestCountry'
-                                extensions { }
-                            }
-                        }
-                    }
-                }
-                disabled(false)
-              }
-          
           - script: >
               pipelineJob('ADS-ANOMALY-DEST-COUNTRY-PORT')
               {
@@ -212,7 +135,7 @@ jenkins:
                 parameters 
                 {
                     stringParam('MLFLOW_TRACKING_URI', 'http://mlflow.rtarf-ml.its-software-services.com/', '')
-                    stringParam('MLFLOW_MINIO_FOLDER', '2023-10-10.zeek_radius', '')
+                    stringParam('MLFLOW_MINIO_FOLDER', '2023-11-27.zeek_radius', '')
                     stringParam('MLFLOW_TRAINING_FILE_LIMIT', '10', 'Limit file will be load for training ML')
                 }
 
