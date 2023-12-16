@@ -18,7 +18,7 @@ spec:
           image: gcr.io/its-artifact-commons/ml-training-api:master-db2c7b2 #change here
           env:
             - name: MODEL_URI
-              value: "s3://mlflow-artifacts/2/80ed7a6bcd31413a946f99d377a4321f/artifacts/model" #change here whimsical-wasp-584
+              value: "s3://mlflow-artifacts/2/3a477d53c9ce4e84a611e73446dea97e/artifacts/model" #change here rumbling-rook-406
             - name: SERVING_PORT
               value: "8082"          
             - name: MLFLOW_S3_ENDPOINT_URL
