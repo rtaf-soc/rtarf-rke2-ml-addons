@@ -25,6 +25,8 @@ spec:
               value: "https://minio-ml-hl.minio-ml.svc.cluster.local:9000"          
             - name: MLFLOW_S3_IGNORE_TLS
               value: "true"     
+            - name: MLFLOW_SCORING_SERVER_REQUEST_TIMEOUT
+              value: "120"     
           resources:
             limits:
               cpu: 1000m
